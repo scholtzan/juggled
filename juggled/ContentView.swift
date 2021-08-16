@@ -9,9 +9,23 @@
 import SwiftUI
 import CoreBluetooth
 
+enum RoutineAction: String {
+    case Caught
+    case Thrown
+    case SetColor
+}
+
+struct RoutineStep: Hashable {
+    var led1: Color
+    var led2: Color
+    var action: RoutineAction
+    var arg: String?
+}
+
 struct JugglingBall: Hashable {
-    var device: Device
+    var deviceName: String
     var displayName: String
+    var routine: [RoutineStep]
 }
 
 struct ContentView: View {
@@ -20,53 +34,55 @@ struct ContentView: View {
     @State var connectingDevices: [Device] = []
     @State var connectedJugglingBalls: [JugglingBall] = []
     
-    
     var body: some View {
         TabView {
-            VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    Text("Juggling Balls")
-                        .font(.largeTitle)
-                    Spacer()
-                    Button(action: {
-                        self.isDevicePopoverShown = true
-                    }) {
-                        HStack {
-                            Image(systemName: "plus")
-                                .font(.headline)
+            NavigationView {
+                VStack(alignment: .leading) {
+                    ScrollView {
+                        ForEach(connectedJugglingBalls, id: \.self) { jugglingBall in
+                            NavigationLink(destination: JugglingBallView(jugglingBall: binding(for: jugglingBall))) {
+                                JugglingBallRow(jugglingBall: jugglingBall)
+                            }
+                            .padding(.top, 50)
                         }
                     }
-                    .padding(10)
-                    .foregroundColor(.white)
-                    .background(Color.gray)
-                    .clipShape(Capsule())
-                    .popover(isPresented: $isDevicePopoverShown) {
-                        Text("Connect to ...")
-                        List(self.bleConnection.scannedDevices, id: \.self) { device in
-                            Button(action: {
-                                self.connectingDevices.append(device)
-                                bleConnection.connectDevice(device: device)
-                                self.connectingDevices = self.connectingDevices.filter({$0 != device})
-                                self.isDevicePopoverShown = false
-                                
-                                // todo: error handling
-                                self.connectedJugglingBalls.append(JugglingBall(device: device, displayName: device.name))
-                            }) {
-                                HStack {
-                                    Text(device.name)
-                                    Spacer()
-                                    ProgressView().isHidden(!self.connectingDevices.contains(device))
+                }
+                    .navigationTitle("Juggling Balls")
+                    .navigationBarItems(trailing:
+                        Button(action: {
+                            self.isDevicePopoverShown = true
+                        }) {
+                            HStack {
+                                Image(systemName: "plus")
+                                    .font(.body)
+                            }
+                        }
+                        .padding(10)
+                        .foregroundColor(.white)
+                        .background(Color.gray)
+                        .clipShape(Capsule())
+                        .popover(isPresented: $isDevicePopoverShown) {
+                            Text("Connect to ...")
+                            List(self.bleConnection.scannedDevices, id: \.self) { device in
+                                Button(action: {
+                                    self.connectingDevices.append(device)
+                                    bleConnection.connectDevice(device: device)
+                                    self.connectingDevices = self.connectingDevices.filter({$0 != device})
+                                    self.isDevicePopoverShown = false
+
+                                    // todo: error handling
+                                    self.connectedJugglingBalls.append(JugglingBall(deviceName: device.name, displayName: device.name, routine: []))
+                                }) {
+                                    HStack {
+                                        Text(device.name)
+                                        Spacer()
+                                        ProgressView().isHidden(!self.connectingDevices.contains(device))
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-                Spacer()
-                List(self.connectedJugglingBalls, id: \.self) { jugglingBall in
-                    Text(jugglingBall.displayName)
-                }
+                )
             }
-            .padding()
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
@@ -87,6 +103,13 @@ struct ContentView: View {
                     Text("Settings")
             }
         }
+    }
+    
+    private func binding(for jugglingBall: JugglingBall) -> Binding<JugglingBall> {
+        guard let index = connectedJugglingBalls.firstIndex(where: { $0.deviceName == jugglingBall.deviceName }) else {
+            fatalError("Can't find connected juggling ball")
+        }
+        return $connectedJugglingBalls[index]
     }
 }
 

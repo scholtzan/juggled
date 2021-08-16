@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9565960F26C4B20E00BE210D /* BleConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9565960E26C4B20E00BE210D /* BleConnection.swift */; };
+		956AA2F426C9990300E12946 /* JugglingBallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956AA2F326C9990300E12946 /* JugglingBallView.swift */; };
+		956AA2F926C9D71700E12946 /* RoutineStepRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956AA2F826C9D71700E12946 /* RoutineStepRow.swift */; };
 		9581D4D026C200FB0025D74E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581D4CF26C200FB0025D74E /* AppDelegate.swift */; };
 		9581D4D226C200FB0025D74E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581D4D126C200FB0025D74E /* SceneDelegate.swift */; };
 		9581D4D426C200FB0025D74E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581D4D326C200FB0025D74E /* ContentView.swift */; };
@@ -16,7 +18,7 @@
 		9581D4DC26C200FE0025D74E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9581D4DA26C200FE0025D74E /* LaunchScreen.storyboard */; };
 		9581D4E726C200FE0025D74E /* juggledTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581D4E626C200FE0025D74E /* juggledTests.swift */; };
 		9581D4F226C200FE0025D74E /* juggledUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581D4F126C200FE0025D74E /* juggledUITests.swift */; };
-		95BD950B26C9814B00D1F0F3 /* JugglingBallRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BD950A26C9814B00D1F0F3 /* JugglingBallRowView.swift */; };
+		95BD950B26C9814B00D1F0F3 /* JugglingBallRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		9565960E26C4B20E00BE210D /* BleConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleConnection.swift; sourceTree = "<group>"; };
+		956AA2F326C9990300E12946 /* JugglingBallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingBallView.swift; sourceTree = "<group>"; };
+		956AA2F826C9D71700E12946 /* RoutineStepRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineStepRow.swift; sourceTree = "<group>"; };
 		9581D4CC26C200FB0025D74E /* juggled.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = juggled.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9581D4CF26C200FB0025D74E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9581D4D126C200FB0025D74E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +56,7 @@
 		9581D4ED26C200FE0025D74E /* juggledUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = juggledUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9581D4F126C200FE0025D74E /* juggledUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = juggledUITests.swift; sourceTree = "<group>"; };
 		9581D4F326C200FE0025D74E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95BD950A26C9814B00D1F0F3 /* JugglingBallRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingBallRowView.swift; sourceTree = "<group>"; };
+		95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingBallRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +88,9 @@
 			isa = PBXGroup;
 			children = (
 				9581D4D326C200FB0025D74E /* ContentView.swift */,
-				95BD950A26C9814B00D1F0F3 /* JugglingBallRowView.swift */,
+				956AA2F326C9990300E12946 /* JugglingBallView.swift */,
+				95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */,
+				956AA2F826C9D71700E12946 /* RoutineStepRow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -289,8 +295,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95BD950B26C9814B00D1F0F3 /* JugglingBallRowView.swift in Sources */,
+				95BD950B26C9814B00D1F0F3 /* JugglingBallRow.swift in Sources */,
 				9581D4D026C200FB0025D74E /* AppDelegate.swift in Sources */,
+				956AA2F426C9990300E12946 /* JugglingBallView.swift in Sources */,
+				956AA2F926C9D71700E12946 /* RoutineStepRow.swift in Sources */,
 				9565960F26C4B20E00BE210D /* BleConnection.swift in Sources */,
 				9581D4D226C200FB0025D74E /* SceneDelegate.swift in Sources */,
 				9581D4D426C200FB0025D74E /* ContentView.swift in Sources */,
