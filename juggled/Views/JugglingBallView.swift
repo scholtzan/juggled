@@ -12,6 +12,8 @@ import SwiftUI
 struct JugglingBallView: View {
     @Binding var jugglingBall: JugglingBall
     @State private var isPresented = false
+    @State private var showRoutineStepPopup = false
+    @State private var lastStep = RoutineStep(led1: Color(red: 0, green: 0, blue: 0, opacity: 1.0), led2: Color(red: 0, green: 0, blue: 0, opacity: 1.0), action: RoutineAction.SetColor, arg: nil)
     
     var body: some View {
         VStack {
@@ -57,7 +59,7 @@ struct JugglingBallView: View {
                 }
                 
                 Button(action: {
-                    print("Add routine step")
+                    self.showRoutineStepPopup = true
                 }) {
                     HStack {
                         Image(systemName: "plus")
@@ -68,6 +70,23 @@ struct JugglingBallView: View {
                 .foregroundColor(.white)
                 .background(Color.gray)
                 .clipShape(Capsule())
+                .popover(isPresented: $showRoutineStepPopup) {
+                    NavigationView {
+                        RoutineStepView(routineStep: $lastStep)
+                            
+                        .navigationBarTitle("Step Configuration")
+                        .navigationBarItems(trailing:
+                            Button(action: {
+                                self.showRoutineStepPopup = false
+                                jugglingBall.routine.append(self.lastStep)
+                                print(jugglingBall.routine)
+//                                self.lastStep = RoutineStep(led1: Color(red: 0, green: 0, blue: 0, opacity: 1.0), led2: Color(red: 0, green: 0, blue: 0, opacity: 1.0), action: RoutineAction.SetColor, arg: nil)
+                            }) {
+                                Text("Save")
+                            }
+                        )
+                    }
+                }
             }
             
             Spacer()
