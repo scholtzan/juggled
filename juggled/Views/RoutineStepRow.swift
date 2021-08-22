@@ -11,6 +11,7 @@ import SwiftUI
 
 struct RoutineStepRow: View {
     var routineStep: RoutineStep
+    @Binding var steps: [RoutineStep]
 
     var body: some View {
         switch routineStep.action {
@@ -25,7 +26,7 @@ struct RoutineStepRow: View {
                 }
                 Spacer()
                 Button(action: {
-                    print("delete")
+                    steps.remove(at: steps.firstIndex(of: routineStep)!)
                 }) {
                     HStack {
                         Image(systemName: "trash.circle.fill")
@@ -44,7 +45,7 @@ struct RoutineStepRow: View {
                     .bold()
                 Spacer()
                 Button(action: {
-                    print("delete")
+                    steps.remove(at: steps.firstIndex(of: routineStep)!)
                 }) {
                     HStack {
                         Image(systemName: "trash.circle.fill")
@@ -64,7 +65,7 @@ struct RoutineStepRow: View {
 struct RoutineStepRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            RoutineStepRow(routineStep: RoutineStep(led1: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), led2: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), action: RoutineAction.SetColor, arg: ""))
+            RoutineStepRow(routineStep: RoutineStep(led1: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), led2: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), action: RoutineAction.SetColor, arg: ""), steps: .constant([]))
         }
     }
 }

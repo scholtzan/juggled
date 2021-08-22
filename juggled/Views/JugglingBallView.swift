@@ -11,7 +11,6 @@ import SwiftUI
 
 struct JugglingBallView: View {
     @Binding var jugglingBall: JugglingBall
-    @State var newStep: RoutineStep = RoutineStep()
     @State private var showRoutineStepPopup = false
     
     var body: some View {
@@ -59,13 +58,12 @@ struct JugglingBallView: View {
                         Button(action: {
                             self.showRoutineStepPopup = true
                         }) {
-                            RoutineStepRow(routineStep: routineStep)
+                            RoutineStepRow(routineStep: routineStep, steps: $jugglingBall.routine)
                         }
                     }
                      
                     Button(action: {
-                        self.newStep = RoutineStep()
-                        self.jugglingBall.routine.append(newStep)
+                        self.jugglingBall.routine.append(RoutineStep())
                         self.showRoutineStepPopup = true
                     }) {
                         HStack {
