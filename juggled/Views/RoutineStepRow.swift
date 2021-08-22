@@ -19,8 +19,8 @@ struct RoutineStepRow: View {
                 VStack {
                     Text(routineStep.action.rawValue)
                         .bold()
-                    if (routineStep.arg != nil) {
-                        Text("Duration: " + routineStep.arg!).font(.footnote)
+                    if (routineStep.arg != "") {
+                        Text("Duration: " + routineStep.arg).font(.footnote)
                     }
                 }
                 Spacer()
@@ -64,7 +64,7 @@ struct RoutineStepRow: View {
 struct RoutineStepRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            RoutineStepRow(routineStep: RoutineStep(led1: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), led2: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), action: RoutineAction.SetColor, arg: nil))
+            RoutineStepRow(routineStep: RoutineStep(led1: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), led2: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), action: RoutineAction.SetColor, arg: ""))
         }
     }
 }

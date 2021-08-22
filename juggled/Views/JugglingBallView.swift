@@ -11,9 +11,8 @@ import SwiftUI
 
 struct JugglingBallView: View {
     @Binding var jugglingBall: JugglingBall
-    @State private var isPresented = false
+    @State var newStep: RoutineStep = RoutineStep()
     @State private var showRoutineStepPopup = false
-    @State private var lastStep = RoutineStep(led1: Color(red: 0, green: 0, blue: 0, opacity: 1.0), led2: Color(red: 0, green: 0, blue: 0, opacity: 1.0), action: RoutineAction.SetColor, arg: nil)
     
     var body: some View {
         VStack {
@@ -52,52 +51,56 @@ struct JugglingBallView: View {
                 .background(Color.gray)
                 .clipShape(Capsule())
             }
+        
             
             ScrollView {
-                ForEach(jugglingBall.routine, id: \.self) { routineStep in
-                    RoutineStepRow(routineStep: routineStep)
-                }
-                
-                Button(action: {
-                    self.showRoutineStepPopup = true
-                }) {
-                    HStack {
-                        Image(systemName: "plus")
-                            .font(.body)
+                VStack(spacing: 50) {
+                    ForEach(jugglingBall.routine, id: \.id) { routineStep in
+                        Button(action: {
+                            self.showRoutineStepPopup = true
+                        }) {
+                            RoutineStepRow(routineStep: routineStep)
+                        }
                     }
-                }
-                .padding(10)
-                .foregroundColor(.white)
-                .background(Color.gray)
-                .clipShape(Capsule())
-                .popover(isPresented: $showRoutineStepPopup) {
-                    NavigationView {
-                        RoutineStepView(routineStep: $lastStep)
-                            
-                        .navigationBarTitle("Step Configuration")
-                        .navigationBarItems(trailing:
-                            Button(action: {
-                                self.showRoutineStepPopup = false
-                                jugglingBall.routine.append(self.lastStep)
-                                print(jugglingBall.routine)
-//                                self.lastStep = RoutineStep(led1: Color(red: 0, green: 0, blue: 0, opacity: 1.0), led2: Color(red: 0, green: 0, blue: 0, opacity: 1.0), action: RoutineAction.SetColor, arg: nil)
-                            }) {
-                                Text("Save")
-                            }
-                        )
+                     
+                    Button(action: {
+                        self.newStep = RoutineStep()
+                        self.jugglingBall.routine.append(newStep)
+                        self.showRoutineStepPopup = true
+                    }) {
+                        HStack {
+                            Image(systemName: "plus")
+                                .font(.body)
+                        }
                     }
-                }
+                    .padding(10)
+                    .foregroundColor(.white)
+                    .background(Color.gray)
+                    .clipShape(Capsule())
+                    .popover(isPresented: $showRoutineStepPopup, content: {
+                        NavigationView {
+                            RoutineStepView(routineStep: $jugglingBall.routine[self.jugglingBall.routine.endIndex - 1], showPopup: $showRoutineStepPopup)
+                        }
+                    })
+                }.padding(.top, 50)
             }
-            
             Spacer()
+
         }
+    }
+    
+    private func binding(for routineStep: RoutineStep) -> Binding<RoutineStep> {
+        guard let index = jugglingBall.routine.firstIndex(where: { $0 == routineStep }) else {
+            fatalError("Can't find connected routine step")
+        }
+        return $jugglingBall.routine[index]
     }
 }
 
 struct JugglingBallView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            JugglingBallView(jugglingBall: .constant(JugglingBall(deviceName: "Ball", displayName: "Ball", routine: [RoutineStep(led1: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), led2: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), action: RoutineAction.SetColor, arg: nil)]))!)
+            JugglingBallView(jugglingBall: .constant(JugglingBall(deviceName: "Ball", displayName: "Ball", routine: [RoutineStep()]))!)
         }
     }
 }

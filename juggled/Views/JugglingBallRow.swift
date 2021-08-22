@@ -33,7 +33,7 @@ struct JugglingBallRow: View {
 struct JugglingBallRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            JugglingBallRow(jugglingBall: JugglingBall(deviceName: "Juggling Ball", displayName: "Juggling Ball", routine: [RoutineStep(led1: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), led2: Color(red: 200.0, green: 100.0, blue: 300.0, opacity: 1.0), action: RoutineAction.SetColor, arg: nil)]))
+            JugglingBallRow(jugglingBall: JugglingBall(deviceName: "Juggling Ball", displayName: "Juggling Ball", routine: [RoutineStep()]))
         }
     }
 }

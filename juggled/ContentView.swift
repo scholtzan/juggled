@@ -9,20 +9,23 @@
 import SwiftUI
 import CoreBluetooth
 
-enum RoutineAction: String {
+enum RoutineAction: String, CaseIterable {
     case Caught
     case Thrown
     case SetColor
+    case Wait
 }
 
 struct RoutineStep: Hashable {
-    var led1: Color
-    var led2: Color
-    var action: RoutineAction
-    var arg: String?
+    let id = UUID()
+    var led1: Color = Color(.black)
+    var led2: Color = Color(.black)
+    var action: RoutineAction = RoutineAction.SetColor
+    var arg: String = ""
 }
 
 struct JugglingBall: Hashable {
+    let id = UUID()
     var deviceName: String
     var displayName: String
     var routine: [RoutineStep]
@@ -39,7 +42,7 @@ struct ContentView: View {
             NavigationView {
                 VStack(alignment: .leading) {
                     ScrollView {
-                        ForEach(connectedJugglingBalls, id: \.self) { jugglingBall in
+                        ForEach(connectedJugglingBalls, id: \.id) { jugglingBall in
                             NavigationLink(destination: JugglingBallView(jugglingBall: binding(for: jugglingBall))) {
                                 JugglingBallRow(jugglingBall: jugglingBall)
                             }
@@ -82,7 +85,7 @@ struct ContentView: View {
                             }
                         }
                 )
-            }
+            }.navigationViewStyle(StackNavigationViewStyle())
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
