@@ -91,7 +91,9 @@ For assembling and soldering the electronic components together, follow the circ
 
 <img src="https://github.com/scholtzan/juggled/raw/main/img/assembled-electronics.png" width="500">
 
-The switch, battery charging module and accelerometer are put in between the lithium battery and ESP32 DEVKIT. The LEDs will be located on the battery and the ESP32. To ensure components stay in place, I printed some additional spacers using TPU and used some hot glue. The assembled bock of electronic components should not exceed 22mm in height as it would otherwise not fit into the inner core of the juggling ball.
+The switch, battery charging module and accelerometer are put in between the lithium battery and ESP32 DEVKIT. The LEDs will be located on the battery and the ESP32. To ensure components stay in place, I printed some additional spacers using TPU and used some hot glue. The assembled bock of electronic components should not exceed 22mm in height as it would otherwise not fit into the inner core of the juggling ball. Ensure that the switch and the USB slots a properly aligned with the opening.
+
+Once all the electronic components have been assembled, they can be place inside the inner core of the juggling ball. Each side of the inner core has holes for the LEDs to fit through. The two pieces for the inner core need to be glue together, either by using hot glue or Gorilla glue. Next, glue the two pieces of the outer shell onto the inner core using hot glue. Make sure that the piece of shell with the opening to access the switch and USB ports is properly aligned.
 
 
 ## Protocol
