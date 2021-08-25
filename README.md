@@ -43,8 +43,39 @@ The following components are required to build a single juggling ball:
 
 ## 3D Printed Shell
 
+The juggling ball consists of an inner core and an outer shell. The models can be found in the `models/` folder.
 
+For printing the inner core which will hold all the components in place, use a transparent material. PLA+ or PETG are more sturdy, but PLA should also work. I have used the following parameters for printing the inner core with transparent PLA+:
 
+* Temperature: 200C
+* Build Plate Temperature: 60C
+* Layer Height: 0.2mm
+* Infill Density: 5%
+* Infill Pattern: Gyroid
+* Print Speed: 80mm/s
+* Generate Support: yes
+	* Support density: 5%
+
+The inner core and all components are protected by an outer shell printed with transparent TPU. The outer shell consists of two parts - a back and a front. The front will allow access to the switch and USB ports. I have used the following parameters for printing the shell:
+
+* Temperature: 220C
+* Build Plate Temperature: 75C
+* Layer Height: 0.2mm
+	* Adaptive Layers: yes
+		* Maximum Variation: 0.1mm
+		* Variation Step Size: 0.1mm
+* Flow: 105%
+* Infill Density: 30%
+* Infill Pattern: Gyroid
+* Print Speed: 20mm/s
+* Retraction Distance: 3mm
+* Generate Support: no
+
+## Circuit Overview
+
+The following diagram shows how the circuit for the LED juggling ball works:
+
+![Circuit](https://github.com/scholtzan/juggled/raw/main/img/circuit.png)
 
 
 ## Protocol
