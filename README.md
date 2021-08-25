@@ -75,7 +75,7 @@ The inner core and all components are protected by an outer shell printed with t
 
 The following diagram shows how the circuit for the LED juggling ball works:
 
-![Circuit](https://github.com/scholtzan/juggled/raw/main/img/circuit.png|width=500)
+<img src="https://github.com/scholtzan/juggled/raw/main/img/circuit.png" width="500">
 
 1. The lithium battery outputs 3.7V when fully charged and can power the ESP32 DEVKIT
 2. The lithium battery is connected to a charger module which allows the battery to be charged via micro USB
