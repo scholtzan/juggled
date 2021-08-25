@@ -37,6 +37,8 @@ The following components are required to build a single juggling ball:
 	* Soft and flexible material will ensure that components and inner core are protected when juggling balls are dropped
 * Clear PLA+
 	* For inner core that will help to keep electronics in place
+* Hot Glue
+	* For glueing outer shell onto inner core and for fixating electronics
 
 ![Components](https://github.com/scholtzan/juggled/raw/main/img/components.png)
 
@@ -85,8 +87,11 @@ The following diagram shows how the circuit for the LED juggling ball works:
 
 ## Assembly
 
-todo
+For assembling and soldering the electronic components together, follow the circuit overview diagram above. As space is very limited inside the juggling ball, the components need to be sandwiched together:
 
-image
+<img src="https://github.com/scholtzan/juggled/raw/main/img/assembled-electronics.png" width="500">
+
+The switch, battery charging module and accelerometer are put in between the lithium battery and ESP32 DEVKIT. The LEDs will be located on the battery and the ESP32. To ensure components stay in place, I printed some additional spacers using TPU and used some hot glue. The assembled bock of electronic components should not exceed 22mm in height as it would otherwise not fit into the inner core of the juggling ball.
+
 
 ## Protocol
