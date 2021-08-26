@@ -95,5 +95,48 @@ The switch, battery charging module and accelerometer are put in between the lit
 
 Once all the electronic components have been assembled, they can be place inside the inner core of the juggling ball. Each side of the inner core has holes for the LEDs to fit through. The two pieces for the inner core need to be glue together, either by using hot glue or Gorilla glue. Next, glue the two pieces of the outer shell onto the inner core using hot glue. Make sure that the piece of shell with the opening to access the switch and USB ports is properly aligned.
 
+## Juggling Ball Software
 
-## Protocol
+The code running on the ESP32 of each juggling ball is located in the `ball-code` directory. The code can be [loaded on to the ESP32](https://www.etechnophiles.com/how-to-install-program-an-esp32-with-arduino-ide-for-the-first-time/) using [Arduino IDE](https://www.arduino.cc/en/software).
+
+The code running on the juggling balls will allow devices to connect to it via BLE and send commands to change the color or get information about the battery voltage.
+
+### Protocol
+
+For specifying the LED behaviour the juggling ball can process messages that follow the following format:
+
+```
+set;<action>;<arg>;<r>,<g>,<b>;<r>,<g>,<b>|<action>;<arg>;<r>,<g>,<b>;<r>,<g>,<b>|...
+```
+
+The juggling ball behaviour can be defined in multiple steps. Each step is separated by `|`. For each step an `action` is specified, some `action`s require additional `arg`uments to be specified or can change the `rgb` values of the two LEDs. Once an action has been completed, the juggling ball will move on to process the next defined step. Once the last step defined have been processed, the juggling ball will again go back to the first step.
+
+Supported `action`s are: `wait`, `thrown`, `caught` and `color`. `arg` is required when `wait` is used, to specify in millisecons how long the ball will wait until processing the next step. The `rgb` values of the LEDs can be changed for any action.
+
+For setting the color of one LED to red and the other to blue the message would look as follows:
+
+```
+set;color;;255,0,0;0,0,255
+```  
+
+To have the juggling ball switch between red and green every second the message would look like:
+
+```
+set;wait;1000;255,0,0;255,0,0|wait;1000;0,0,255;0,0,255
+```
+
+To change the color to blue when a ball is in the air and to red when it is caught:
+
+```
+set;caught;;255,0,0;255,0,0|thrown;;0,0,255;0,0,255
+```
+
+All messages need to be converted to HEX. So for the first example the following message would need to be sent to the juggling ball in order for it to correctly interpret it: 
+
+```
+7365743b636f6c6f723b3b3235352c302c303b302c302c323535
+```
+
+## iOS Application
+
+The code for an iOS application is in the `app/` directory, which makes connecting juggling balls, defining behaviours and collecting statistics very easy. The application is not part of the App Store, instead it can be 
