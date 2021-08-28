@@ -9,6 +9,35 @@
 import SwiftUI
 import CoreBluetooth
 
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+
+extension Color {
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
+
+        #if canImport(UIKit)
+        typealias NativeColor = UIColor
+        #elseif canImport(AppKit)
+        typealias NativeColor = NSColor
+        #endif
+
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var o: CGFloat = 0
+
+        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
+            // You can handle the failure here as you want
+            return (0, 0, 0, 0)
+        }
+
+        return (r, g, b, o)
+    }
+}
+
 enum RoutineAction: String, CaseIterable {
     case Caught
     case Thrown
@@ -29,6 +58,34 @@ struct JugglingBall: Hashable {
     var deviceName: String
     var displayName: String
     var routine: [RoutineStep]
+    
+    func message() -> String {
+        var message = "set;"
+        
+        for (index, step) in routine.enumerated() {
+            if index > 0 {
+                message += "|"
+            }
+            
+            message += step.action.rawValue
+            
+            if step.action == RoutineAction.Wait {
+                message += ";" + step.arg
+            } else if step.action == RoutineAction.SetColor {
+                message += ";"
+                message += String(Int(step.led1.components.red)) + ","
+                message += String(Int(step.led1.components.green)) + ","
+                message += String(Int(step.led1.components.blue))
+                
+                message += ";"
+                message += String(Int(step.led2.components.red)) + ","
+                message += String(Int(step.led2.components.green)) + ","
+                message += String(Int(step.led2.components.blue))
+            }
+        }
+        
+        return message
+    }
 }
 
 struct ContentView: View {
@@ -105,7 +162,11 @@ struct ContentView: View {
                     Image(systemName: "gearshape.fill")
                     Text("Settings")
             }
-        }
+        }.onChange(of: connectedJugglingBalls, perform: { value in
+            let changed = connectedJugglingBalls.first(where: {!value.contains($0)})
+            let device = connectingDevices.first(where: {$0.name == changed?.deviceName})
+            bleConnection.sendMessage(device: device!, message: changed!.message())
+        })
     }
     
     private func binding(for jugglingBall: JugglingBall) -> Binding<JugglingBall> {
