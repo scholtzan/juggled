@@ -12,6 +12,7 @@ import SwiftUI
 struct JugglingBallView: View {
     @Binding var jugglingBall: JugglingBall
     @State private var showRoutineStepPopup = false
+    @State private var routineStepEditing: UUID? = nil
     
     var body: some View {
         VStack {
@@ -56,6 +57,7 @@ struct JugglingBallView: View {
                 VStack(spacing: 50) {
                     ForEach(jugglingBall.routine, id: \.id) { routineStep in
                         Button(action: {
+                            self.routineStepEditing = routineStep.id
                             self.showRoutineStepPopup = true
                         }) {
                             RoutineStepRow(routineStep: routineStep, steps: $jugglingBall.routine)
@@ -64,6 +66,7 @@ struct JugglingBallView: View {
                      
                     Button(action: {
                         self.jugglingBall.routine.append(RoutineStep())
+                        self.routineStepEditing = jugglingBall.routine[self.jugglingBall.routine.endIndex - 1].id
                         self.showRoutineStepPopup = true
                     }) {
                         HStack {
@@ -77,7 +80,7 @@ struct JugglingBallView: View {
                     .clipShape(Capsule())
                     .popover(isPresented: $showRoutineStepPopup, content: {
                         NavigationView {
-                            RoutineStepView(routineStep: $jugglingBall.routine[self.jugglingBall.routine.endIndex - 1], showPopup: $showRoutineStepPopup)
+                            RoutineStepView(routineStep: $jugglingBall.routine[jugglingBall.routine.firstIndex(where: { $0.id == routineStepEditing })!], showPopup: $showRoutineStepPopup)
                         }
                     })
                 }.padding(.top, 50)
