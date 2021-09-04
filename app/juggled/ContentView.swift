@@ -34,7 +34,7 @@ extension Color {
             return (0, 0, 0, 0)
         }
 
-        return (r, g, b, o)
+        return (r * 255, g * 255, b * 255, o)
     }
 }
 
@@ -62,17 +62,19 @@ struct JugglingBall: Hashable {
     func message() -> String {
         var message = "set;"
         
+        print(routine)
+        
         for (index, step) in routine.enumerated() {
             if index > 0 {
                 message += "|"
             }
             
-            message += step.action.rawValue
+            message += step.action.rawValue.lowercased()
             
             if step.action == RoutineAction.Wait {
-                message += ";" + step.arg
+                message += ";" + step.arg + ";;"
             } else if step.action == RoutineAction.SetColor {
-                message += ";"
+                message += ";;"
                 message += String(Int(step.led1.components.red)) + ","
                 message += String(Int(step.led1.components.green)) + ","
                 message += String(Int(step.led1.components.blue))
@@ -84,6 +86,7 @@ struct JugglingBall: Hashable {
             }
         }
         
+        print(message)
         return message
     }
 }
@@ -162,10 +165,14 @@ struct ContentView: View {
                     Image(systemName: "gearshape.fill")
                     Text("Settings")
             }
-        }.onChange(of: connectedJugglingBalls, perform: { value in
+        }.onChange(of: connectedJugglingBalls, perform: { [connectedJugglingBalls] value in
             let changed = connectedJugglingBalls.first(where: {!value.contains($0)})
-            let device = connectingDevices.first(where: {$0.name == changed?.deviceName})
-            bleConnection.sendMessage(device: device!, message: changed!.message())
+            
+            if changed != nil {
+                if !changed!.routine.isEmpty {
+                    bleConnection.sendMessage(deviceName: changed!.deviceName, message: changed!.message())
+                }
+            }
         })
     }
     

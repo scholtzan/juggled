@@ -19,8 +19,8 @@ class BleConnection: NSObject, CBPeripheralDelegate, CBPeripheralManagerDelegate
     private var centralManager: CBCentralManager!
     private var peripheralManager: CBPeripheralManager!
     
-    private let SERVICE_UUID = CBUUID(string: "19B10010-E8F2-537E-4F6C-D104768A1214")
-    private let WRITE_UUID = CBUUID(string: "19B10011-E8F2-537E-4F6C-D104768A1214")
+    private let SERVICE_UUID = CBUUID(string: "4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+    private let WRITE_UUID = CBUUID(string: "beb5483e-36e1-4688-b7f5-ea07361b26a8")
     private let WRITE_PROPERTIES: CBCharacteristicProperties = .write
     private let WRITE_PERMISSIONS: CBAttributePermissions = .writeable
     
@@ -80,8 +80,14 @@ class BleConnection: NSObject, CBPeripheralDelegate, CBPeripheralManagerDelegate
         for characteristic in service.characteristics! {
             let characteristic = characteristic as CBCharacteristic
             if (characteristic.uuid.isEqual(WRITE_UUID)) {
-                var device = self.connectedDevices.first(where: {$0.peripheral == peripheral})
-                device?.characteristic = characteristic
+                var device = connectedDevices.first(where: {$0.peripheral == peripheral})
+                
+                if device != nil {
+                    device?.characteristic = characteristic
+                    
+                    connectedDevices = connectedDevices.filter({ $0.name != device?.name })
+                    connectedDevices.append(device!)
+                }
             }
         }
     }
@@ -92,7 +98,11 @@ class BleConnection: NSObject, CBPeripheralDelegate, CBPeripheralManagerDelegate
         device.peripheral.discoverServices(nil)
     }
     
-    func sendMessage(device: Device, message: String) {
-        device.peripheral.writeValue(message.data(using: .utf8)!, for: device.characteristic!, type: CBCharacteristicWriteType.withResponse)
+    func sendMessage(deviceName: String, message: String) {
+        let device = connectedDevices.first(where: {$0.name == deviceName})
+       
+        if device != nil {
+            device!.peripheral.writeValue(message.data(using: .utf8)!, for: (device?.characteristic!)!, type: CBCharacteristicWriteType.withResponse)
+        }
     }
 }
