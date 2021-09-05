@@ -35,7 +35,13 @@ struct RoutineStepRow: View {
                 }
             }
             .padding()
-            .background(Color.gray)
+            .background(RoundedRectangle(cornerRadius: 10)
+                            .fill(LinearGradient(
+                                gradient: .init(colors: [adjustColorDisplay(color: routineStep.led1), adjustColorDisplay(color: routineStep.led2)]),
+                                startPoint: .init(x: 0, y: 0),
+                                endPoint: .init(x: 1, y: 0)
+                              ))
+                            .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
             .foregroundColor(.white)
             .cornerRadius(10)
             .frame(height: (5.0))
@@ -54,7 +60,9 @@ struct RoutineStepRow: View {
                 }
             }
             .padding()
-            .background(Color.gray)
+            .background(RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.entryBackground)
+                            .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
             .foregroundColor(.white)
             .cornerRadius(10)
             .frame(height: (5.0))

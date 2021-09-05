@@ -12,16 +12,17 @@ import SwiftUI
 struct JugglingBallView: View {
     @Binding var jugglingBall: JugglingBall
     @State private var showRoutineStepPopup = false
-    @State private var routineStepEditing: UUID? = nil
+    @State private var routineStepEditing: Int = 0
     
     var body: some View {
         VStack {
             Text(self.jugglingBall.deviceName).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-            HStack {
-                Text("Throws: ")
-                Text("Catches: ")
-                Text("Todo stats: ")
-            }
+            // todo
+//            HStack {
+//                Text("Throws: ")
+//                Text("Catches: ")
+//                Text("Todo stats: ")
+//            }
             
             HStack {
                 Spacer()
@@ -35,7 +36,9 @@ struct JugglingBallView: View {
                 }
                 .padding(10)
                 .foregroundColor(.white)
-                .background(Color.gray)
+                .background(RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.entryBackground)
+                                .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
                 .clipShape(Capsule())
                 
                 Button(action: {
@@ -48,16 +51,19 @@ struct JugglingBallView: View {
                 }
                 .padding(10)
                 .foregroundColor(.white)
-                .background(Color.gray)
+                .background(RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.entryBackground)
+                                .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
                 .clipShape(Capsule())
             }
         
             
             ScrollView {
                 VStack(spacing: 50) {
-                    ForEach(jugglingBall.routine, id: \.id) { routineStep in
+                    ForEach(Array(jugglingBall.routine.enumerated()), id: \.offset) { index, routineStep in
                         Button(action: {
-                            self.routineStepEditing = routineStep.id
+                            self.routineStepEditing = index
+                            print(self.routineStepEditing)
                             self.showRoutineStepPopup = true
                         }) {
                             RoutineStepRow(routineStep: routineStep, steps: $jugglingBall.routine)
@@ -66,21 +72,24 @@ struct JugglingBallView: View {
                      
                     Button(action: {
                         self.jugglingBall.routine.append(RoutineStep())
-                        self.routineStepEditing = jugglingBall.routine[self.jugglingBall.routine.endIndex - 1].id
+                        self.routineStepEditing = self.jugglingBall.routine.endIndex - 1
                         self.showRoutineStepPopup = true
                     }) {
                         HStack {
                             Image(systemName: "plus")
                                 .font(.body)
+                            Text("Add Step")
                         }
                     }
                     .padding(10)
                     .foregroundColor(.white)
-                    .background(Color.gray)
+                    .background(RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.entryBackground)
+                                    .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
                     .clipShape(Capsule())
                     .popover(isPresented: $showRoutineStepPopup, content: {
                         NavigationView {
-                            RoutineStepView(routineStep: $jugglingBall.routine[jugglingBall.routine.firstIndex(where: { $0.id == routineStepEditing })!], showPopup: $showRoutineStepPopup)
+                            RoutineStepView(routineStep: $jugglingBall.routine[self.routineStepEditing], showPopup: $showRoutineStepPopup)
                         }
                     })
                 }.padding(.top, 50)

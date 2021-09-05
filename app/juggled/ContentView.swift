@@ -9,34 +9,7 @@
 import SwiftUI
 import CoreBluetooth
 
-#if canImport(UIKit)
-import UIKit
-#elseif canImport(AppKit)
-import AppKit
-#endif
 
-extension Color {
-    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
-
-        #if canImport(UIKit)
-        typealias NativeColor = UIColor
-        #elseif canImport(AppKit)
-        typealias NativeColor = NSColor
-        #endif
-
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var o: CGFloat = 0
-
-        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
-            // You can handle the failure here as you want
-            return (0, 0, 0, 0)
-        }
-
-        return (r * 255, g * 255, b * 255, o)
-    }
-}
 
 enum RoutineAction: String, CaseIterable {
     case Caught
@@ -89,6 +62,29 @@ struct JugglingBall: Hashable {
         print(message)
         return message
     }
+    
+    func colorsUsed() -> [Color] {
+        var colors: [Color] = []
+        let setColorSteps = routine.filter({ $0.action == RoutineAction.SetColor })
+        for step in setColorSteps {
+            colors.append(adjustColorDisplay(color: step.led1))
+            colors.append(adjustColorDisplay(color: step.led2))
+        }
+        
+        if colors.isEmpty {
+            colors = [Color.entryBackground]
+        }
+        
+        return colors
+    }
+}
+
+func adjustColorDisplay(color: Color) -> Color {
+    if color.components.red < 20 && color.components.blue < 20 && color.components.green < 20 {
+        return Color.entryBackground
+    } else {
+        return color
+    }
 }
 
 struct ContentView: View {
@@ -122,7 +118,9 @@ struct ContentView: View {
                         }
                         .padding(10)
                         .foregroundColor(.white)
-                        .background(Color.gray)
+                        .background(RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.entryBackground)
+                                        .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
                         .clipShape(Capsule())
                         .popover(isPresented: $isDevicePopoverShown) {
                             Text("Connect to ...")
