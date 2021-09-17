@@ -34,9 +34,7 @@ struct JugglingBall: Hashable {
     
     func message() -> String {
         var message = "set;"
-        
-        print(routine)
-        
+                
         for (index, step) in routine.enumerated() {
             if index > 0 {
                 message += "|"
@@ -45,7 +43,7 @@ struct JugglingBall: Hashable {
             message += step.action.rawValue.lowercased()
             
             if step.action == RoutineAction.Wait {
-                message += ";" + step.arg + ";;"
+                message += ";" + step.arg + ";0,0,0;0,0,0"
             } else if step.action == RoutineAction.SetColor {
                 message += ";;"
                 message += String(Int(step.led1.components.red)) + ","
@@ -56,6 +54,8 @@ struct JugglingBall: Hashable {
                 message += String(Int(step.led2.components.red)) + ","
                 message += String(Int(step.led2.components.green)) + ","
                 message += String(Int(step.led2.components.blue))
+            } else {
+                message += ";;0,0,0;0,0,0"
             }
         }
         

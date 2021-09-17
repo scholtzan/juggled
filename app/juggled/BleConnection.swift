@@ -96,6 +96,11 @@ class BleConnection: NSObject, CBPeripheralDelegate, CBPeripheralManagerDelegate
         centralManager.connect(device.peripheral, options: nil)
         self.connectedDevices.append(device)
         device.peripheral.discoverServices(nil)
+        
+        if self.connectedDevices.contains(device) {
+            print(self.scannedDevices.firstIndex(of: device)!)
+            self.scannedDevices.remove(at: self.scannedDevices.firstIndex(of: device)!)
+        }
     }
     
     func sendMessage(deviceName: String, message: String) {
