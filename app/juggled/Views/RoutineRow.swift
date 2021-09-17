@@ -13,6 +13,7 @@ import SwiftUI
 struct RoutineRow: View {
     var routine: Routine
     @Binding var routines: [Routine]
+    var deletable = true
 
     var body: some View {
         HStack {
@@ -24,12 +25,14 @@ struct RoutineRow: View {
                     Text(routine.id.uuidString)
                 }
                 Spacer()
-                Button(action: {
-                    routines.remove(at: routines.firstIndex(of: routine)!)
-                }) {
-                    HStack {
-                        Image(systemName: "trash.circle.fill")
-                            .font(.body)
+                if deletable {
+                    Button(action: {
+                        routines.remove(at: routines.firstIndex(of: routine)!)
+                    }) {
+                        HStack {
+                            Image(systemName: "trash.circle.fill")
+                                .font(.body)
+                        }
                     }
                 }
             }

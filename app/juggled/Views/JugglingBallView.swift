@@ -16,6 +16,8 @@ struct JugglingBallView: View {
     @State private var showRoutineStepPopup = false
     @State private var routineStepEditing: Int = 0
     
+    @State private var showRoutinePalette = false
+    
     var body: some View {
         VStack {
             Text(self.jugglingBall.deviceName).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
@@ -29,7 +31,7 @@ struct JugglingBallView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    print("Show pallette")
+                    self.showRoutinePalette = true
                 }) {
                     HStack {
                         Image(systemName: "paintpalette.fill")
@@ -42,6 +44,21 @@ struct JugglingBallView: View {
                                 .fill(Color.entryBackground)
                                 .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
                 .clipShape(Capsule())
+                .popover(isPresented: $showRoutinePalette, content: {
+                    Text("Select routine")
+                    VStack(alignment: .leading) {
+                        ScrollView {
+                            ForEach(savedRoutines, id: \.id) { routine in
+                                Button(action: {
+                                    self.jugglingBall.routine = Routine(steps: routine.steps)
+                                    self.showRoutinePalette = false
+                                }) {
+                                    RoutineRow(routine: routine, routines: $savedRoutines, deletable: false).padding(.top, 50)
+                                }
+                            }.padding(.top, 50)
+                        }
+                    }
+                })
                 
                 Menu(content: {
                     Button {
