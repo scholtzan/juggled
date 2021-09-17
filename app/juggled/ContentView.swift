@@ -10,32 +10,16 @@ import SwiftUI
 import CoreBluetooth
 
 
-
-enum RoutineAction: String, CaseIterable {
-    case Caught
-    case Thrown
-    case SetColor
-    case Wait
-}
-
-struct RoutineStep: Hashable {
-    let id = UUID()
-    var led1: Color = Color(.black)
-    var led2: Color = Color(.black)
-    var action: RoutineAction = RoutineAction.SetColor
-    var arg: String = ""
-}
-
 struct JugglingBall: Hashable {
     let id = UUID()
     var deviceName: String
     var displayName: String
-    var routine: [RoutineStep]
+    var routine: Routine
     
     func message() -> String {
         var message = "set;"
                 
-        for (index, step) in routine.enumerated() {
+        for (index, step) in routine.steps.enumerated() {
             if index > 0 {
                 message += "|"
             }
@@ -64,18 +48,7 @@ struct JugglingBall: Hashable {
     }
     
     func colorsUsed() -> [Color] {
-        var colors: [Color] = []
-        let setColorSteps = routine.filter({ $0.action == RoutineAction.SetColor })
-        for step in setColorSteps {
-            colors.append(adjustColorDisplay(color: step.led1))
-            colors.append(adjustColorDisplay(color: step.led2))
-        }
-        
-        if colors.isEmpty {
-            colors = [Color.entryBackground]
-        }
-        
-        return colors
+        return routine.colorsUsed()
     }
 }
 
@@ -88,10 +61,13 @@ func adjustColorDisplay(color: Color) -> Color {
 }
 
 struct ContentView: View {
+    @ObservedObject private var data = JuggledData()
     @ObservedObject var bleConnection = BleConnection()
     @State var isDevicePopoverShown = false
     @State var connectingDevices: [Device] = []
     @State var connectedJugglingBalls: [JugglingBall] = []
+    @State var showEditRoutinePopup = false
+    @State private var routineEditing: Int = 0
     
     var body: some View {
         TabView {
@@ -99,7 +75,7 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     ScrollView {
                         ForEach(connectedJugglingBalls, id: \.id) { jugglingBall in
-                            NavigationLink(destination: JugglingBallView(jugglingBall: binding(for: jugglingBall))) {
+                            NavigationLink(destination: JugglingBallView(jugglingBall: binding(for: jugglingBall), savedRoutines: $data.routines)) {
                                 JugglingBallRow(jugglingBall: jugglingBall)
                             }
                             .padding(.top, 50)
@@ -132,7 +108,7 @@ struct ContentView: View {
                                     self.isDevicePopoverShown = false
 
                                     // todo: error handling
-                                    self.connectedJugglingBalls.append(JugglingBall(deviceName: device.name, displayName: device.name, routine: []))
+                                    self.connectedJugglingBalls.append(JugglingBall(deviceName: device.name, displayName: device.name, routine: Routine()))
                                 }) {
                                     HStack {
                                         Text(device.name)
@@ -148,7 +124,30 @@ struct ContentView: View {
                     Image(systemName: "house.fill")
                     Text("Home")
             }
-            Text("Saved")
+            NavigationView {
+                VStack(alignment: .leading) {
+                    ScrollView {
+                        ForEach(Array(data.routines.enumerated()), id: \.offset) { index, routine in
+                            Button(action: {
+                                self.routineEditing = index
+                                self.showEditRoutinePopup = true
+                            }) {
+                                RoutineRow(routine: routine, routines: $data.routines).padding(.top, 50)
+                            }
+                        }.padding(.top, 50)
+                    }
+                }
+                .navigationTitle("Saved Routines")
+                .popover(isPresented: $showEditRoutinePopup, content: {
+                    NavigationView {
+                        RoutineView(routine: $data.routines[self.routineEditing], savedRoutines: $data.routines)
+                        .navigationBarTitle("Edit Routine")
+                        .navigationBarItems(trailing: Button("Save", action: {
+                            self.showEditRoutinePopup = false
+                        }))
+                    }
+                })
+            }
                 .tabItem {
                     Image(systemName: "paintpalette.fill")
                     Text("Saved")
@@ -167,11 +166,18 @@ struct ContentView: View {
             let changed = connectedJugglingBalls.first(where: {!value.contains($0)})
             
             if changed != nil {
-                if !changed!.routine.isEmpty {
+                if !changed!.routine.steps.isEmpty {
                     bleConnection.sendMessage(deviceName: changed!.deviceName, message: changed!.message())
                 }
             }
         })
+        .onChange(of: data.routines, perform: { value in
+            print("save data")
+            data.save()
+        })
+        .onAppear {
+            data.load()
+        }
     }
     
     private func binding(for jugglingBall: JugglingBall) -> Binding<JugglingBall> {

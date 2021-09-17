@@ -19,6 +19,10 @@
 		9581D4DC26C200FE0025D74E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9581D4DA26C200FE0025D74E /* LaunchScreen.storyboard */; };
 		9581D4E726C200FE0025D74E /* juggledTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581D4E626C200FE0025D74E /* juggledTests.swift */; };
 		9581D4F226C200FE0025D74E /* juggledUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581D4F126C200FE0025D74E /* juggledUITests.swift */; };
+		958967C326F50B1D00D1565F /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967C226F50B1D00D1565F /* Routine.swift */; };
+		958967C826F50FAF00D1565F /* JuggledData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967C726F50FAF00D1565F /* JuggledData.swift */; };
+		958967CD26F5318500D1565F /* RoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967CC26F5318500D1565F /* RoutineView.swift */; };
+		958967D226F5350900D1565F /* RoutineRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967D126F5350900D1565F /* RoutineRow.swift */; };
 		958F0F1E26E454FF00C13828 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958F0F1D26E454FF00C13828 /* Colors.swift */; };
 		95BD950B26C9814B00D1F0F3 /* JugglingBallRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +63,10 @@
 		9581D4ED26C200FE0025D74E /* juggledUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = juggledUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9581D4F126C200FE0025D74E /* juggledUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = juggledUITests.swift; sourceTree = "<group>"; };
 		9581D4F326C200FE0025D74E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		958967C226F50B1D00D1565F /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
+		958967C726F50FAF00D1565F /* JuggledData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuggledData.swift; sourceTree = "<group>"; };
+		958967CC26F5318500D1565F /* RoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineView.swift; sourceTree = "<group>"; };
+		958967D126F5350900D1565F /* RoutineRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineRow.swift; sourceTree = "<group>"; };
 		958F0F1D26E454FF00C13828 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingBallRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +104,8 @@
 				95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */,
 				956AA30026D172D000E12946 /* RoutineStepView.swift */,
 				956AA2F826C9D71700E12946 /* RoutineStepRow.swift */,
+				958967CC26F5318500D1565F /* RoutineView.swift */,
+				958967D126F5350900D1565F /* RoutineRow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -103,6 +113,8 @@
 		9565960D26C4A72C00BE210D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				958967C226F50B1D00D1565F /* Routine.swift */,
+				958967C726F50FAF00D1565F /* JuggledData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,13 +313,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				958967C326F50B1D00D1565F /* Routine.swift in Sources */,
 				95BD950B26C9814B00D1F0F3 /* JugglingBallRow.swift in Sources */,
+				958967D226F5350900D1565F /* RoutineRow.swift in Sources */,
 				958F0F1E26E454FF00C13828 /* Colors.swift in Sources */,
 				9581D4D026C200FB0025D74E /* AppDelegate.swift in Sources */,
 				956AA2F426C9990300E12946 /* JugglingBallView.swift in Sources */,
 				956AA2F926C9D71700E12946 /* RoutineStepRow.swift in Sources */,
 				9565960F26C4B20E00BE210D /* BleConnection.swift in Sources */,
 				956AA30126D172D000E12946 /* RoutineStepView.swift in Sources */,
+				958967C826F50FAF00D1565F /* JuggledData.swift in Sources */,
+				958967CD26F5318500D1565F /* RoutineView.swift in Sources */,
 				9581D4D226C200FB0025D74E /* SceneDelegate.swift in Sources */,
 				9581D4D426C200FB0025D74E /* ContentView.swift in Sources */,
 			);

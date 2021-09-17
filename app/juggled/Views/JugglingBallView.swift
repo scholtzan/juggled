@@ -11,6 +11,8 @@ import SwiftUI
 
 struct JugglingBallView: View {
     @Binding var jugglingBall: JugglingBall
+    @Binding var savedRoutines: [Routine]
+    
     @State private var showRoutineStepPopup = false
     @State private var routineStepEditing: Int = 0
     
@@ -41,14 +43,15 @@ struct JugglingBallView: View {
                                 .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
                 .clipShape(Capsule())
                 
-                Button(action: {
-                    print("more")
-                }) {
-                    HStack {
-                        Image(systemName: "ellipsis.circle.fill")
-                            .font(.body)
+                Menu(content: {
+                    Button {
+                        savedRoutines.append(self.jugglingBall.routine)
+                    } label: {
+                        Label("Save", systemImage: "square.and.arrow.down")
                     }
-                }
+                }, label: {
+                    Image(systemName: "ellipsis.circle.fill")
+                })
                 .padding(10)
                 .foregroundColor(.white)
                 .background(RoundedRectangle(cornerRadius: 10)
@@ -56,61 +59,25 @@ struct JugglingBallView: View {
                                 .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
                 .clipShape(Capsule())
             }
-        
             
-            ScrollView {
-                VStack(spacing: 50) {
-                    ForEach(Array(jugglingBall.routine.enumerated()), id: \.offset) { index, routineStep in
-                        Button(action: {
-                            self.routineStepEditing = index
-                            print(self.routineStepEditing)
-                            self.showRoutineStepPopup = true
-                        }) {
-                            RoutineStepRow(routineStep: routineStep, steps: $jugglingBall.routine)
-                        }
-                    }
-                     
-                    Button(action: {
-                        self.jugglingBall.routine.append(RoutineStep())
-                        self.routineStepEditing = self.jugglingBall.routine.endIndex - 1
-                        self.showRoutineStepPopup = true
-                    }) {
-                        HStack {
-                            Image(systemName: "plus")
-                                .font(.body)
-                            Text("Add Step")
-                        }
-                    }
-                    .padding(10)
-                    .foregroundColor(.white)
-                    .background(RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.entryBackground)
-                                    .shadow(color: Color.entryShadow, radius: 1, x: 0, y: 2))
-                    .clipShape(Capsule())
-                    .popover(isPresented: $showRoutineStepPopup, content: {
-                        NavigationView {
-                            RoutineStepView(routineStep: $jugglingBall.routine[self.routineStepEditing], showPopup: $showRoutineStepPopup)
-                        }
-                    })
-                }.padding(.top, 50)
-            }
+            RoutineView(routine: $jugglingBall.routine, savedRoutines: $savedRoutines)
             Spacer()
 
         }
     }
     
     private func binding(for routineStep: RoutineStep) -> Binding<RoutineStep> {
-        guard let index = jugglingBall.routine.firstIndex(where: { $0 == routineStep }) else {
+        guard let index = jugglingBall.routine.steps.firstIndex(where: { $0 == routineStep }) else {
             fatalError("Can't find connected routine step")
         }
-        return $jugglingBall.routine[index]
+        return $jugglingBall.routine.steps[index]
     }
 }
 
 struct JugglingBallView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            JugglingBallView(jugglingBall: .constant(JugglingBall(deviceName: "Ball", displayName: "Ball", routine: [RoutineStep()]))!)
+            JugglingBallView(jugglingBall: .constant(JugglingBall(deviceName: "Ball", displayName: "Ball", routine: Routine()))!, savedRoutines: .constant([]))
         }
     }
 }

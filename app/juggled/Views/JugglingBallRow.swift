@@ -39,7 +39,7 @@ struct JugglingBallRow: View {
 struct JugglingBallRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            JugglingBallRow(jugglingBall: JugglingBall(deviceName: "Juggling Ball", displayName: "Juggling Ball", routine: [RoutineStep()]))
+            JugglingBallRow(jugglingBall: JugglingBall(deviceName: "Juggling Ball", displayName: "Juggling Ball", routine: Routine()))
         }
     }
 }
