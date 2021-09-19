@@ -1,11 +1,3 @@
-//
-//  RoutineRow.swift
-//  juggled
-//
-//  Created by Anna Scholtz on 2021-09-17.
-//  Copyright © 2021 Anna Scholtz. All rights reserved.
-//
-
 import Foundation
 import SwiftUI
 

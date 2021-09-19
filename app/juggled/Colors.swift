@@ -1,11 +1,3 @@
-//
-//  Colors.swift
-//  juggled
-//
-//  Created by Anna Scholtz on 2021-09-04.
-//  Copyright © 2021 Anna Scholtz. All rights reserved.
-//
-
 import SwiftUI
 
 #if canImport(UIKit)
@@ -16,7 +8,6 @@ import AppKit
 
 extension Color {
     var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
-
         #if canImport(UIKit)
         typealias NativeColor = UIColor
         #elseif canImport(AppKit)
@@ -29,7 +20,6 @@ extension Color {
         var o: CGFloat = 0
 
         guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
-            // You can handle the failure here as you want
             return (0, 0, 0, 0)
         }
 
@@ -55,9 +45,6 @@ extension Color: Codable {
         let colorComponents = self.components
         
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        print(colorComponents)
-        
         try container.encode(colorComponents.red, forKey: .red)
         try container.encode(colorComponents.green, forKey: .green)
         try container.encode(colorComponents.blue, forKey: .blue)

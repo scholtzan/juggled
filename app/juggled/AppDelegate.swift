@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  juggled
-//
-//  Created by Anna Scholtz on 2021-08-09.
-//  Copyright © 2021 Anna Scholtz. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain

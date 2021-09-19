@@ -23,6 +23,7 @@
 		958967C826F50FAF00D1565F /* JuggledData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967C726F50FAF00D1565F /* JuggledData.swift */; };
 		958967CD26F5318500D1565F /* RoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967CC26F5318500D1565F /* RoutineView.swift */; };
 		958967D226F5350900D1565F /* RoutineRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967D126F5350900D1565F /* RoutineRow.swift */; };
+		958967D726F7995600D1565F /* JugglingBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958967D626F7995600D1565F /* JugglingBall.swift */; };
 		958F0F1E26E454FF00C13828 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958F0F1D26E454FF00C13828 /* Colors.swift */; };
 		95BD950B26C9814B00D1F0F3 /* JugglingBallRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		958967C726F50FAF00D1565F /* JuggledData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuggledData.swift; sourceTree = "<group>"; };
 		958967CC26F5318500D1565F /* RoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineView.swift; sourceTree = "<group>"; };
 		958967D126F5350900D1565F /* RoutineRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineRow.swift; sourceTree = "<group>"; };
+		958967D626F7995600D1565F /* JugglingBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingBall.swift; sourceTree = "<group>"; };
 		958F0F1D26E454FF00C13828 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		95BD950A26C9814B00D1F0F3 /* JugglingBallRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingBallRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +117,7 @@
 			children = (
 				958967C226F50B1D00D1565F /* Routine.swift */,
 				958967C726F50FAF00D1565F /* JuggledData.swift */,
+				958967D626F7995600D1565F /* JugglingBall.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				958967C326F50B1D00D1565F /* Routine.swift in Sources */,
 				95BD950B26C9814B00D1F0F3 /* JugglingBallRow.swift in Sources */,
 				958967D226F5350900D1565F /* RoutineRow.swift in Sources */,
+				958967D726F7995600D1565F /* JugglingBall.swift in Sources */,
 				958F0F1E26E454FF00C13828 /* Colors.swift in Sources */,
 				9581D4D026C200FB0025D74E /* AppDelegate.swift in Sources */,
 				956AA2F426C9990300E12946 /* JugglingBallView.swift in Sources */,

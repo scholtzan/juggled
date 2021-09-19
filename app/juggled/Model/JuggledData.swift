@@ -1,11 +1,3 @@
-//
-//  JuggledData.swift
-//  juggled
-//
-//  Created by Anna Scholtz on 2021-09-17.
-//  Copyright © 2021 Anna Scholtz. All rights reserved.
-//
-
 import Foundation
 
 class JuggledData: ObservableObject {
@@ -41,8 +33,6 @@ class JuggledData: ObservableObject {
                 fatalError("Can't decode saved routine data.")
             }
             
-            print(data.base64EncodedString())
-
             DispatchQueue.main.async {
                 self?.routines = routines
             }
@@ -53,8 +43,6 @@ class JuggledData: ObservableObject {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let routines = self?.routines else { fatalError("Self out of scope") }
             guard let data = try? JSONEncoder().encode(routines) else { fatalError("Error encoding data") }
-
-            print(data)
             
             do {
                 let outfile = Self.fileURL

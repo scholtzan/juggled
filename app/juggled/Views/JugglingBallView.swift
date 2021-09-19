@@ -1,11 +1,3 @@
-//
-//  JugglingBallView.swift
-//  juggled
-//
-//  Created by Anna Scholtz on 2021-08-15.
-//  Copyright © 2021 Anna Scholtz. All rights reserved.
-//
-
 import Foundation
 import SwiftUI
 
@@ -21,7 +13,7 @@ struct JugglingBallView: View {
     var body: some View {
         VStack {
             Text(self.jugglingBall.deviceName).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-            // todo
+             // todo
 //            HStack {
 //                Text("Throws: ")
 //                Text("Catches: ")
