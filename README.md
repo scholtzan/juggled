@@ -51,6 +51,7 @@ The following components are required to build a single juggling ball:
 ## 3D Printed Shell
 
 The juggling ball consists of an inner core and an outer shell. The models can be found in the `models/` folder.
+All files are also available on Thingiverse: https://www.thingiverse.com/thing:4969010
 
 For printing the inner core which will hold all the components in place, use a transparent material. PLA+ or PETG are more sturdy, but PLA should also work. I have used the following parameters for printing the inner core with transparent PLA+:
 
