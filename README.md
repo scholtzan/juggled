@@ -1,7 +1,5 @@
 # juggled - LED Juggling Ball
 
-> This project is still work in progress.
-
 This repository contains all the files and instructions for 3D printing and creating LED juggling balls that can be controlled via Bluetooth.
 
 todo: insert image
@@ -26,6 +24,8 @@ The following components are required to build a single juggling ball:
 	* Used to read the battery charge via the ESP32
 * Switch
 	* To turn the juggling ball on and off
+* Capacitor (1 to 100uF)
+	* Required in order to ensure ESP32 gets flashed without having to push any buttons on the microcontroller
 * Wire
 	* For connecting all the components
 * Heat Shrink Tubes
@@ -84,6 +84,7 @@ The following diagram shows how the circuit for the LED juggling ball works:
 3. The two RGB LEDs are directly connected to the ESP32
 4. The two resistors connect the lithium battery directly to one pin of the ESP32. This connection will be used to determine how much charge the battery has left
 5. The accelerometer is connected to and powered by the ESP32
+6. The capacitor is connected to EN to ensure the ESP32 gets flashed without having to press any buttons
 
 ## Assembly
 
@@ -106,29 +107,29 @@ The code running on the juggling balls will allow devices to connect to it via B
 For specifying the LED behaviour the juggling ball can process messages that follow the following format:
 
 ```
-set;<action>;<arg>;<r>,<g>,<b>;<r>,<g>,<b>|<action>;<arg>;<r>,<g>,<b>;<r>,<g>,<b>|...
+set;<action>;<arg>|<action>;<arg>|...
 ```
 
-The juggling ball behaviour can be defined in multiple steps. Each step is separated by `|`. For each step an `action` is specified, some `action`s require additional `arg`uments to be specified or can change the `rgb` values of the two LEDs. Once an action has been completed, the juggling ball will move on to process the next defined step. Once the last step defined have been processed, the juggling ball will again go back to the first step.
+The juggling ball behaviour can be defined in multiple steps. Each step is separated by `|`. For each step an `action` is specified, some `action`s require additional `arg`uments to be specified, such as `setcolor` expects the RGB values for the two LEDs. Once an action has been completed, the juggling ball will move on to process the next defined step. Once the last step defined have been processed, the juggling ball will again go back to the first step.
 
-Supported `action`s are: `wait`, `thrown`, `caught` and `color`. `arg` is required when `wait` is used, to specify in millisecons how long the ball will wait until processing the next step. The `rgb` values of the LEDs can be changed for any action.
+Supported `action`s are: `wait`, `thrown`, `caught` and `setcolor`. `arg` is required when `wait` and `setcolor` is used. For `wait` the millisecons how long the ball will wait until processing the next step needs to be specified. `setcolor` requires the `<r>,<g>,<b>;<r>,<g>,<b>` values of the two LEDs.
 
 For setting the color of one LED to red and the other to blue the message would look as follows:
 
 ```
-set;color;;255,0,0;0,0,255
+set;setcolor;255,0,0;0,0,255
 ```  
 
 To have the juggling ball switch between red and green every second the message would look like:
 
 ```
-set;wait;1000;255,0,0;255,0,0|wait;1000;0,0,255;0,0,255
+set;wait;1000|setcolor;255,0,0;0,0,255|wait;1000|setcolor;0,0,255;0,0,255
 ```
 
 To change the color to blue when a ball is in the air and to red when it is caught:
 
 ```
-set;caught;;255,0,0;255,0,0|thrown;;0,0,255;0,0,255
+set;caught|setcolor;255,0,0;255,0,0|thrown|setcolor;0,0,255;0,0,255
 ```
 
 All messages need to be converted to HEX. So for the first example the following message would need to be sent to the juggling ball in order for it to correctly interpret it: 
@@ -139,4 +140,29 @@ All messages need to be converted to HEX. So for the first example the following
 
 ## iOS Application
 
-The code for an iOS application is in the `app/` directory, which makes connecting juggling balls, defining behaviours and collecting statistics very easy. The application is not part of the App Store, instead it can be 
+The code for the iOS application is in the `app/` directory, which makes connecting juggling balls, defining behaviours and collecting statistics very easy. The application is not part of the App Store, instead it can be loaded on to iOS devices via Xcode.
+
+### Usage
+
+New juggling balls can be connected to via the "+" button. A list of available juggling balls will appear, balls can get selected and will appear under "Home".
+
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-home.png" width="300">
+
+Clicking on a juggling ball entry will show the configuration of the juggling ball. The juggling ball routine can be edited by deleting steps or adding new steps via the "+ Add Step" button.
+
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-ball.png" width="300">
+
+When adding a new step, `Set Color` is selected by default. This action allows to set the color for each LED.
+
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-step.png" width="300">
+
+Other actions, such as `Caught`, `Thrown` and `Wait` can be selected by changing the "Event Type".
+
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-actions.png" width="300">
+
+It is also possible to save routines and apply them to other juggling balls later. All saved routines can be found in the "Saved" tab. Saved routines can also be deleted and edited.
+
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-routines.png" width="300">
+
+To apply a saved routine to a juggling ball, press the button with the palette icon which will list all available routines.
+
