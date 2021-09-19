@@ -1,5 +1,7 @@
 # juggled - LED Juggling Ball
 
+> Work in progress
+
 This repository contains all the files and instructions for 3D printing and creating LED juggling balls that can be controlled via Bluetooth.
 
 _Watch a demo of the juggling balls on Youtube:_
