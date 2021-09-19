@@ -2,7 +2,10 @@
 
 This repository contains all the files and instructions for 3D printing and creating LED juggling balls that can be controlled via Bluetooth.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/KDMFEAo71LQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+_Watch a demo of the juggling balls on Youtube:_
+
+[![Youtube video](http://img.youtube.com/vi/KDMFEAo71LQ/0.jpg)](https://www.youtube.com/watch?v=KDMFEAo71LQ)
+
 
 ## Required Materials
 
