@@ -146,23 +146,23 @@ The code for the iOS application is in the `app/` directory, which makes connect
 
 New juggling balls can be connected to via the "+" button. A list of available juggling balls will appear, balls can get selected and will appear under "Home".
 
-<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-home.png" width="300">
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-home.PNG" width="300">
 
 Clicking on a juggling ball entry will show the configuration of the juggling ball. The juggling ball routine can be edited by deleting steps or adding new steps via the "+ Add Step" button.
 
-<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-ball.png" width="300">
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-ball.PNG" width="300">
 
 When adding a new step, `Set Color` is selected by default. This action allows to set the color for each LED.
 
-<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-step.png" width="300">
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-step.PNG" width="300">
 
 Other actions, such as `Caught`, `Thrown` and `Wait` can be selected by changing the "Event Type".
 
-<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-actions.png" width="300">
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-actions.PNG" width="300">
 
 It is also possible to save routines and apply them to other juggling balls later. All saved routines can be found in the "Saved" tab. Saved routines can also be deleted and edited.
 
-<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-routines.png" width="300">
+<img src="https://github.com/scholtzan/juggled/raw/main/img/screenshot-routines.PNG" width="300">
 
 To apply a saved routine to a juggling ball, press the button with the palette icon which will list all available routines.
 
